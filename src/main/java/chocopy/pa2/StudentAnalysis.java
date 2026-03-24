@@ -16,15 +16,15 @@ public class StudentAnalysis {
         }
 
         DeclarationAnalyzer declarationAnalyzer =
-            new DeclarationAnalyzer(program.errors);
-        program.dispatch(declarationAnalyzer);
+            new DeclarationAnalyzer(program.errors); 
+        program.dispatch(declarationAnalyzer); // First pass through
         SymbolTable<Type> globalSym =
-            declarationAnalyzer.getGlobals();
+            declarationAnalyzer.getGlobals(); // globals = sym.
 
         if (!program.hasErrors()) {
             TypeChecker typeChecker =
                 new TypeChecker(globalSym, program.errors);
-            program.dispatch(typeChecker);
+            program.dispatch(typeChecker); // Second pass through, after you have globalSym from that declaration Analyzer.
         }
 
         return program;

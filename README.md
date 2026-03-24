@@ -45,7 +45,15 @@ semantic analysis as well:
 
     java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy \
         --pass=rs <chocopy_input_file> --out <typed_ast_json_file>
+    
+w/ Both references:
 
+java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy --pass=rr \ <chocopy input file>
+e.g
+java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy --pass=rr src/test/data/pa2/sample/bad_type_id.py
+
+w/our semantic analyser:
+java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy --pass=rs src/test/data/pa2/sample/expr_int.py
 
 ## Assignment specifications
 
@@ -68,8 +76,10 @@ To sync with updates upstream:
 
 ## Submission writeup
 
-Team member 1: 
+Team member 1: David Xu
 
-Team member 2: 
+Team member 2: Logan Lee Wall
 
 (Students should edit this section with their write-up)
+1. How many passes does your semantic analysis perform over the AST? List the names of these passes with their class names and briefly explain the purpose of each apss. 
+2. What was the hardest component to implement?

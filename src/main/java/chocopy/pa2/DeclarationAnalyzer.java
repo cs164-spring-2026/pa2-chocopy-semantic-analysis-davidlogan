@@ -34,7 +34,7 @@ public class DeclarationAnalyzer extends AbstractNodeAnalyzer<Type> {
 
     @Override
     public Type analyze(Program program) {
-        for (Declaration decl : program.declarations) {
+        for (Declaration decl : program.declarations) { // Wow syntax.
             Identifier id = decl.getIdentifier();
             String name = id.name;
 

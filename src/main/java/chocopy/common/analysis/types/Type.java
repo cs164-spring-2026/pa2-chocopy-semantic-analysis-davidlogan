@@ -36,15 +36,14 @@ public abstract class Type {
     public static final ClassValueType NONE_TYPE =
         new ClassValueType("<None>");
     /** The type of []. */
-    public static final ClassValueType EMPTY_TYPE =
-        new ClassValueType("<Empty>");
-
+    public static final ListValueType EMPTY_TYPE = new ListValueType(new ClassValueType("<Empty>"));
 
     /** Returns the name of the class, if this is a class type,
      *  Otherwise null. */
     public String className() {
         return null;
     }
+    
 
     /** Return true iff this is a type that does not include the value None.
      */
@@ -52,7 +51,6 @@ public abstract class Type {
     public boolean isSpecialType() {
         return equals(INT_TYPE) || equals(BOOL_TYPE) || equals(STR_TYPE);
     }
-
     @JsonIgnore
     public boolean isListType() {
         return false;
