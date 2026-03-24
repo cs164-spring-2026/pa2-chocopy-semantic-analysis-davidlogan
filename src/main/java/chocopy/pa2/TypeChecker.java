@@ -22,10 +22,13 @@ import chocopy.common.astnodes.Stmt;
 import static chocopy.common.analysis.types.Type.INT_TYPE;
 import static chocopy.common.analysis.types.Type.OBJECT_TYPE;
 import static chocopy.common.analysis.types.Type.BOOL_TYPE;
-import static chocopy.common.analysis.types.Type.EMPTY_TYPE;
 import static chocopy.common.analysis.types.Type.STR_TYPE;
 import static chocopy.common.analysis.types.Type.NONE_TYPE;
+import static chocopy.common.analysis.types.Type.EMPTY_TYPE;
+
 import chocopy.common.analysis.types.ListValueType;
+import chocopy.common.analysis.types.ClassValueType;
+
 
 /** Analyzer that performs ChocoPy type checks on all nodes.  Applied after
  *  collecting declarations. */
@@ -228,15 +231,15 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
             if (INT_TYPE.equals(t1)) { // We allow negative
                 return e.setInferredType(INT_TYPE);
             } else{
-                err(e, "Cannot apply operator %s on type`%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
+                err(e, "Cannot apply operator `%s` on type `%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
                     e.operator, t1);
                 return e.setInferredType(INT_TYPE); // error recovery -> I.e, we still return this here.
             }
         case "not":
             if (BOOL_TYPE.equals(t1)) { // We allow negative
                 return e.setInferredType(BOOL_TYPE);
-            } else{
-                err(e, "Cannot apply operator %s on type`%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
+            } else {
+                err(e, "Cannot apply operator `%s` on type `%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
                     e.operator, t1);
                 return e.setInferredType(BOOL_TYPE); // error recovery -> I.e, we still return this here.
             }

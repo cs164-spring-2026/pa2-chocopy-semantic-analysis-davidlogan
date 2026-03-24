@@ -35,8 +35,8 @@ public abstract class Type {
     /** The type of None. */
     public static final ClassValueType NONE_TYPE =
         new ClassValueType("<None>");
-    /** The type of []. */
-    public static final ListValueType EMPTY_TYPE = new ListValueType(new ClassValueType("<Empty>"));
+    // Empty list.
+    public static final ClassValueType EMPTY_TYPE = new ClassValueType("<Empty>");
 
     /** Returns the name of the class, if this is a class type,
      *  Otherwise null. */
