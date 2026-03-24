@@ -12,6 +12,7 @@ import chocopy.common.astnodes.Errors;
 import chocopy.common.astnodes.ExprStmt;
 import chocopy.common.astnodes.Identifier;
 import chocopy.common.astnodes.IntegerLiteral;
+import chocopy.common.astnodes.StringLiteral;
 import chocopy.common.astnodes.NoneLiteral;
 import chocopy.common.astnodes.BooleanLiteral;
 import chocopy.common.astnodes.Node;
@@ -76,6 +77,10 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
     @Override
     public Type analyze(IntegerLiteral i) {
         return i.setInferredType(Type.INT_TYPE);
+    }
+    @Override
+    public Type analyze(StringLiteral i) {
+        return i.setInferredType(Type.STR_TYPE);
     }
     
     @Override
