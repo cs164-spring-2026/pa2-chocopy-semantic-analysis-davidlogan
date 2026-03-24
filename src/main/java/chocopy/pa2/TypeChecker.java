@@ -7,6 +7,7 @@ import chocopy.common.analysis.types.ValueType;
 import chocopy.common.astnodes.BinaryExpr;
 import chocopy.common.astnodes.ListExpr;
 import chocopy.common.astnodes.UnaryExpr;
+import chocopy.common.astnodes.IfExpr;
 import chocopy.common.astnodes.Declaration;
 import chocopy.common.astnodes.Errors;
 import chocopy.common.astnodes.ExprStmt;
@@ -247,7 +248,17 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
             return e.setInferredType(OBJECT_TYPE);
         }
     }
-
+    
+    @Override
+    public Type analyze(IfExpr e) {
+        Type t1 = e.condition.dispatch(this); // Goes to BinaryExpr
+        Type t2 = e.thenExpr.dispatch(this); // in conditionals this is just a literal.
+        Type t3 = e.elseExpr.dispatch(this); // same here.
+        if (!BOOL_TYPE.equals(t1)){
+            err(e, "Inside of if conditional is not a boolean");
+        }
+        return e.setInferredType(LUB(t2, t3)); // are we done?
+    }
     @Override
     public Type analyze(Identifier id) {
         String varName = id.name;
