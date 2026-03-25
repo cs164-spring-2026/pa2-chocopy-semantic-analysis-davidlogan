@@ -11,6 +11,8 @@ import chocopy.common.astnodes.IfExpr;
 import chocopy.common.astnodes.Declaration;
 import chocopy.common.astnodes.Errors;
 import chocopy.common.astnodes.ExprStmt;
+import chocopy.common.astnodes.VarDef;
+import chocopy.common.astnodes.AssignStmt;
 import chocopy.common.astnodes.Identifier;
 import chocopy.common.astnodes.IntegerLiteral;
 import chocopy.common.astnodes.StringLiteral;
@@ -72,9 +74,19 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
         s.expr.dispatch(this);
         return null;
     }
+    // Returns the LUB type between type t1 and t2 passed in. 
     private Type LUB(Type t1, Type t2){
         // its a stub for now.
         if(t1.equals(t2)) return t1;
+        // Empty list type conforms to any list
+        if (EMPTY_TYPE.equals(t1) && t2 instanceof ListValueType) {
+            return t2;
+        }
+        if (EMPTY_TYPE.equals(t2) && t1 instanceof ListValueType) {
+            return t1;
+        }
+        
+        // TODO later: proper class hierarchy LUB
         return Type.OBJECT_TYPE;
     }
 
@@ -262,7 +274,7 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
     @Override
     public Type analyze(Identifier id) {
         String varName = id.name;
-        Type varType = sym.get(varName);
+        Type varType = sym.get(varName); // I get symbol table as sym here.
 
         if (varType != null && varType.isValueType()) {
             return id.setInferredType(varType);
@@ -270,5 +282,44 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
 
         err(id, "Not a variable: %s", varName);
         return id.setInferredType(ValueType.OBJECT_TYPE);
+    }
+    @Override 
+    public Type analyze(VarDef v){
+        Type t1 = v.value.dispatch(this);
+        return null; // I'm not setting type for VarDef
+    }
+    @Override 
+    public Type analyze(AssignStmt a) { 
+        // I have many targets, and one value. We have to 
+        Type value_type = a.value.dispatch(this);
+        for (int i = 0; i < a.targets.size(); i++) {
+            Type t = a.targets.get(i).dispatch(this);
+            // Check that type t is LUB with with value?
+            if (!conformsTo(value_type, t)) {
+                err(a, "Cannot assign Identifier of type `%s` with value type `%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
+                    t, value_type);
+            }
+        }
+        return null;
+    }
+    //Check 
+    private boolean conformsTo(Type t1, Type t2){
+            // Same type always conforms
+        if (t1.equals(t2)) return true;
+        
+        // Everything conforms to object
+        if (OBJECT_TYPE.equals(t2)) return true;
+        
+        // None conforms to any class type (but not int, bool, str)
+        if (NONE_TYPE.equals(t1) && t2 instanceof ClassValueType && 
+            !t2.isSpecialType()) {
+            return true;
+        }
+        
+        // TODO later: class hierarchy (B <: A if B extends A)
+        // TODO later: lists are INVARIANT ([int] does NOT conform to [object])
+        
+        return false;
+        
     }
 }

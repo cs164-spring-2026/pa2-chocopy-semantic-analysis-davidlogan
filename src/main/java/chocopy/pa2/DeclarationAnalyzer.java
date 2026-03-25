@@ -9,6 +9,8 @@ import chocopy.common.astnodes.Errors;
 import chocopy.common.astnodes.Identifier;
 import chocopy.common.astnodes.Program;
 import chocopy.common.astnodes.VarDef;
+import chocopy.common.astnodes.FuncDef;
+
 
 /**
  * Analyzes declarations to create a top-level symbol table.
@@ -56,10 +58,14 @@ public class DeclarationAnalyzer extends AbstractNodeAnalyzer<Type> {
 
         return null;
     }
-
+    // What does this do right now? What is this program split?
     @Override
     public Type analyze(VarDef varDef) {
         return ValueType.annotationToValueType(varDef.var.type);
+    }
+    @Override
+    public Type analyze(FuncDef f) {
+        return ValueType.annotationToValueType(f.returnType)
     }
 
 

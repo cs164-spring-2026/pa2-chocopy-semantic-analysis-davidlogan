@@ -55,6 +55,12 @@ java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy --pass=rr src/t
 w/our semantic analyser:
 java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy --pass=rs src/test/data/pa2/sample/expr_int.py
 
+all tests:
+mvn clean package
+
+java -cp "chocopy-ref.jar:target/assignment.jar" chocopy.ChocoPy \
+    --pass=.s --dir src/test/data/pa2/sample/ --test
+
 ## Assignment specifications
 
 See the PA2 specification on the course
