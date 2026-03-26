@@ -91,7 +91,7 @@ public class DeclarationAnalyzer extends AbstractNodeAnalyzer<Type> {
     // What does this do right now? What is this program split?
     @Override
     public Type analyze(VarDef vd) {
-        checkTypeExists(vd.var.type); 
+        checkTypeExists(vd.var.type); // Why dont I catch the D inside the function?
         return ValueType.annotationToValueType(vd.var.type);
     }
     @Override
@@ -106,6 +106,29 @@ public class DeclarationAnalyzer extends AbstractNodeAnalyzer<Type> {
         // Get return type
         ValueType returnType = ValueType.annotationToValueType(f.returnType);
         checkTypeExists(f.returnType);
+
+        // I probably have to do things with creating a frame here, but for now, I'm brute force checking.
+        // Bigger picture problem is how do frames work here? From lec -> I need like 4 contexts.
+
+        for (Declaration decl : f.declarations) { // Wow syntax.
+            Identifier id = decl.getIdentifier();
+            String name = id.name;
+
+            Type type = decl.dispatch(this);
+
+            if (type == null) {
+                continue;
+            }
+
+            if (sym.declares(name)) {
+                errors.semError(id,
+                                "Duplicate declaration of identifier in same "
+                                + "scope: %s",
+                                name);
+            } else {
+                sym.put(name, type);
+            }
+        }
         // Create function type
         return new FuncType(paramTypes, returnType);
     }

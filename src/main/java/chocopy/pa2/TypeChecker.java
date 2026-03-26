@@ -7,6 +7,8 @@ import chocopy.common.analysis.types.ValueType;
 import chocopy.common.astnodes.BinaryExpr;
 import chocopy.common.astnodes.ListExpr;
 import chocopy.common.astnodes.UnaryExpr;
+import chocopy.common.astnodes.IndexExpr;
+import chocopy.common.astnodes.Expr;
 import chocopy.common.astnodes.IfExpr;
 import chocopy.common.astnodes.Declaration;
 import chocopy.common.astnodes.Errors;
@@ -87,6 +89,7 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
         }
         
         // TODO later: proper class hierarchy LUB
+        // WHat does thsi mean?
         return Type.OBJECT_TYPE;
     }
 
@@ -290,21 +293,43 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
     }
     @Override 
     public Type analyze(AssignStmt a) { 
-        // I have many targets, and one value. We have to 
         Type value_type = a.value.dispatch(this);
-        for (int i = 0; i < a.targets.size(); i++) {
-            Type t = a.targets.get(i).dispatch(this);
-            // Check that type t is LUB with with value?
-            if (!conformsTo(value_type, t)) {
-                err(a, "Cannot assign Identifier of type `%s` with value type `%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
-                    t, value_type);
+        
+        for (Expr target : a.targets) {
+            Type targetType = target.dispatch(this);
+            
+            // Weird string rules here. 
+            // x[0] = c, assigning to a string index is invalid.
+            // x = c[0], reading from a string index is fine. 
+            // So we have to check if target is a string index.
+            if (target instanceof IndexExpr) {
+                IndexExpr indexExpr = (IndexExpr) target;
+                Type listType = indexExpr.list.dispatch(this);
+                
+                if (STR_TYPE.equals(listType)) {
+                    err(target, "`str` is not a list type");
+                    continue;  // Skip conformance check for this target
+                }
+            }
+            
+            // Check type conformance
+            if (!conformsTo(value_type, targetType)) {
+                err(a, "Expected type `%s`; got type `%s`", targetType, value_type);
             }
         }
         return null;
     }
     //Check 
     private boolean conformsTo(Type t1, Type t2){
-            // Same type always conforms
+        // Catch assignment to none first.
+        if (NONE_TYPE.equals(t1)) {
+            // None does NOT conform to int, bool, str
+            if (t2.isSpecialType()) {
+                return false;
+            }
+            // None DOES conform to object, user classes, and list types
+            return true;
+        }
         if (t1.equals(t2)) return true;
         
         // Everything conforms to object
@@ -317,9 +342,39 @@ public class TypeChecker extends AbstractNodeAnalyzer<Type> {
         }
         
         // TODO later: class hierarchy (B <: A if B extends A)
-        // TODO later: lists are INVARIANT ([int] does NOT conform to [object])
-        
+        // List Rules.
+        if (t2.isListType()) {
+            if (NONE_TYPE.equals(t1)|| EMPTY_TYPE.equals(t1)) return true;
+            if (t1.isListType()) {
+                if (t1.elementType().equals(NONE_TYPE)) return true;
+                if (t1.elementType().equals(t2.elementType())){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        }
         return false;
         
+    }
+    @Override
+    public Type analyze(IndexExpr i){
+        Type indexType = i.index.dispatch(this);
+        Type listType = i.list.dispatch(this); // It wil be identifier.
+        if (!indexType.equals(INT_TYPE)) {
+            err(i, "Index is of non-integer type `%s`", // Cant apply negative to integers in chocopy. Its valid python syntax tho.;
+                indexType);
+            return i.setInferredType(OBJECT_TYPE); // bad_stirngs wants me to enc control flow here.
+        } 
+        // We can index either a list or a string. 
+        if (listType.isListType()) {
+            return i.setInferredType(listType.elementType()); // So I recovert
+        } else if (listType.equals(STR_TYPE)) {
+            return i.setInferredType(STR_TYPE);
+        } else {
+            err(i, "Cannot index into type `%s`", listType);
+            return i.setInferredType(OBJECT_TYPE);  // Error recovery
+        }
     }
 }

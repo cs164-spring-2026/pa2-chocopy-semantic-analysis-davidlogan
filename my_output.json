@@ -9,126 +9,283 @@
       "type" : {
         "kind" : "ClassType",
         "location" : [ 1, 3, 1, 5 ],
-        "className" : "int"
+        "className" : "str"
       },
       "kind" : "TypedVar",
       "location" : [ 1, 1, 1, 5 ]
     },
     "value" : {
-      "value" : 1,
-      "kind" : "IntegerLiteral",
-      "location" : [ 1, 9, 1, 9 ]
+      "value" : "Hello",
+      "kind" : "StringLiteral",
+      "location" : [ 1, 9, 1, 15 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
     },
     "kind" : "VarDef",
-    "location" : [ 1, 1, 1, 9 ]
-  }, {
-    "name" : {
-      "name" : "foo",
-      "kind" : "Identifier",
-      "location" : [ 3, 5, 3, 7 ]
-    },
-    "params" : [ ],
-    "returnType" : {
-      "kind" : "ClassType",
-      "location" : [ 3, 14, 3, 19 ],
-      "className" : "object"
-    },
-    "declarations" : [ ],
-    "statements" : [ ],
-    "kind" : "FuncDef",
-    "location" : [ 3, 1, 4, 9 ]
-  }, {
-    "name" : {
-      "name" : "foo",
-      "kind" : "Identifier",
-      "location" : [ 7, 5, 7, 7 ]
-    },
-    "params" : [ ],
-    "returnType" : {
-      "kind" : "ClassType",
-      "location" : [ 7, 14, 7, 19 ],
-      "className" : "object"
-    },
-    "declarations" : [ ],
-    "statements" : [ ],
-    "kind" : "FuncDef",
-    "location" : [ 7, 1, 8, 9 ]
-  }, {
-    "name" : {
-      "name" : "print",
-      "kind" : "Identifier",
-      "location" : [ 11, 5, 11, 9 ]
-    },
-    "params" : [ {
-      "identifier" : {
-        "name" : "val",
-        "kind" : "Identifier",
-        "location" : [ 11, 11, 11, 13 ]
-      },
-      "type" : {
-        "kind" : "ClassType",
-        "location" : [ 11, 15, 11, 20 ],
-        "className" : "object"
-      },
-      "kind" : "TypedVar",
-      "location" : [ 11, 11, 11, 20 ]
-    } ],
-    "returnType" : {
-      "kind" : "ClassType",
-      "location" : [ 11, 26, 11, 31 ],
-      "className" : "object"
-    },
-    "declarations" : [ ],
-    "statements" : [ ],
-    "kind" : "FuncDef",
-    "location" : [ 11, 1, 12, 9 ]
+    "location" : [ 1, 1, 1, 15 ]
   }, {
     "var" : {
       "identifier" : {
-        "name" : "x",
+        "name" : "y",
         "kind" : "Identifier",
-        "location" : [ 15, 1, 15, 1 ],
-        "errorMsg" : "Duplicate declaration of identifier in same scope: x"
+        "location" : [ 2, 1, 2, 1 ]
       },
       "type" : {
         "kind" : "ClassType",
-        "location" : [ 15, 3, 15, 5 ],
-        "className" : "int"
+        "location" : [ 2, 3, 2, 5 ],
+        "className" : "str"
       },
       "kind" : "TypedVar",
-      "location" : [ 15, 1, 15, 5 ]
+      "location" : [ 2, 1, 2, 5 ]
     },
     "value" : {
-      "value" : 2,
-      "kind" : "IntegerLiteral",
-      "location" : [ 15, 9, 15, 9 ]
+      "value" : "World",
+      "kind" : "StringLiteral",
+      "location" : [ 2, 9, 2, 15 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
     },
     "kind" : "VarDef",
-    "location" : [ 15, 1, 15, 9 ]
+    "location" : [ 2, 1, 2, 15 ]
+  }, {
+    "var" : {
+      "identifier" : {
+        "name" : "z",
+        "kind" : "Identifier",
+        "location" : [ 3, 1, 3, 1 ]
+      },
+      "type" : {
+        "kind" : "ClassType",
+        "location" : [ 3, 3, 3, 5 ],
+        "className" : "str"
+      },
+      "kind" : "TypedVar",
+      "location" : [ 3, 1, 3, 5 ]
+    },
+    "value" : {
+      "value" : "",
+      "kind" : "StringLiteral",
+      "location" : [ 3, 9, 3, 10 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    },
+    "kind" : "VarDef",
+    "location" : [ 3, 1, 3, 10 ]
   } ],
   "statements" : [ {
     "expr" : {
-      "function" : {
-        "name" : "foo",
-        "kind" : "Identifier",
-        "location" : [ 18, 1, 18, 3 ]
+      "kind" : "BinaryExpr",
+      "location" : [ 5, 1, 5, 5 ],
+      "errorMsg" : "Cannot apply operator `+` on types `int` and `str`",
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
       },
-      "args" : [ ],
-      "kind" : "CallExpr",
-      "location" : [ 18, 1, 18, 5 ]
+      "left" : {
+        "value" : 1,
+        "kind" : "IntegerLiteral",
+        "location" : [ 5, 1, 5, 1 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "int"
+        }
+      },
+      "operator" : "+",
+      "right" : {
+        "name" : "x",
+        "kind" : "Identifier",
+        "location" : [ 5, 5, 5, 5 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "str"
+        }
+      }
     },
     "kind" : "ExprStmt",
-    "location" : [ 18, 1, 18, 5 ]
+    "location" : [ 5, 1, 5, 5 ]
+  }, {
+    "targets" : [ {
+      "name" : "z",
+      "kind" : "Identifier",
+      "location" : [ 6, 1, 6, 1 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    } ],
+    "value" : {
+      "kind" : "BinaryExpr",
+      "location" : [ 6, 5, 6, 9 ],
+      "errorMsg" : "Cannot apply operator `+` on types `str` and `int`",
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "left" : {
+        "name" : "x",
+        "kind" : "Identifier",
+        "location" : [ 6, 5, 6, 5 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "str"
+        }
+      },
+      "operator" : "+",
+      "right" : {
+        "value" : 1,
+        "kind" : "IntegerLiteral",
+        "location" : [ 6, 9, 6, 9 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "int"
+        }
+      }
+    },
+    "kind" : "AssignStmt",
+    "location" : [ 6, 1, 6, 9 ],
+    "errorMsg" : "Cannot assign Identifier of type `str` with value type `int`"
+  }, {
+    "targets" : [ {
+      "name" : "z",
+      "kind" : "Identifier",
+      "location" : [ 7, 1, 7, 1 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    }, {
+      "list" : {
+        "name" : "x",
+        "kind" : "Identifier",
+        "location" : [ 7, 5, 7, 5 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "str"
+        }
+      },
+      "index" : {
+        "value" : 0,
+        "kind" : "IntegerLiteral",
+        "location" : [ 7, 7, 7, 7 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "int"
+        }
+      },
+      "kind" : "IndexExpr",
+      "location" : [ 7, 5, 7, 8 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    } ],
+    "value" : {
+      "name" : "y",
+      "kind" : "Identifier",
+      "location" : [ 7, 12, 7, 12 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    },
+    "kind" : "AssignStmt",
+    "location" : [ 7, 1, 7, 12 ]
+  }, {
+    "targets" : [ {
+      "list" : {
+        "name" : "x",
+        "kind" : "Identifier",
+        "location" : [ 8, 1, 8, 1 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "str"
+        }
+      },
+      "index" : {
+        "value" : 1,
+        "kind" : "IntegerLiteral",
+        "location" : [ 8, 3, 8, 3 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "int"
+        }
+      },
+      "kind" : "IndexExpr",
+      "location" : [ 8, 1, 8, 4 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    } ],
+    "value" : {
+      "name" : "y",
+      "kind" : "Identifier",
+      "location" : [ 8, 8, 8, 8 ],
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    },
+    "kind" : "AssignStmt",
+    "location" : [ 8, 1, 8, 8 ]
+  }, {
+    "expr" : {
+      "list" : {
+        "name" : "x",
+        "kind" : "Identifier",
+        "location" : [ 9, 1, 9, 1 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "str"
+        }
+      },
+      "index" : {
+        "value" : true,
+        "kind" : "BooleanLiteral",
+        "location" : [ 9, 3, 9, 6 ],
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "bool"
+        }
+      },
+      "kind" : "IndexExpr",
+      "location" : [ 9, 1, 9, 7 ],
+      "errorMsg" : "Cannot have non integer of type `bool` as list index.",
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "str"
+      }
+    },
+    "kind" : "ExprStmt",
+    "location" : [ 9, 1, 9, 7 ]
   } ],
   "errors" : {
     "errors" : [ {
-      "message" : "Duplicate declaration of identifier in same scope: x",
+      "message" : "Cannot apply operator `+` on types `int` and `str`",
       "kind" : "CompilerError",
-      "location" : [ 15, 1, 15, 1 ]
+      "location" : [ 5, 1, 5, 5 ]
+    }, {
+      "message" : "Cannot apply operator `+` on types `str` and `int`",
+      "kind" : "CompilerError",
+      "location" : [ 6, 5, 6, 9 ]
+    }, {
+      "message" : "Cannot assign Identifier of type `str` with value type `int`",
+      "kind" : "CompilerError",
+      "location" : [ 6, 1, 6, 9 ]
+    }, {
+      "message" : "Cannot have non integer of type `bool` as list index.",
+      "kind" : "CompilerError",
+      "location" : [ 9, 1, 9, 7 ]
     } ],
     "kind" : "Errors",
     "location" : [ 0, 0, 0, 0 ]
   },
   "kind" : "Program",
-  "location" : [ 1, 1, 18, 6 ]
+  "location" : [ 1, 1, 9, 8 ]
 }
